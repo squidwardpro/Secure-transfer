@@ -14,18 +14,23 @@ This guide explains how to securely copy your local environment file (`~/env`) t
 
 ## 🔐 Authentication
 
-Authenticate as the `root` user using a password constructed as:
+Authenticate using your current local username:
 
+```bash
+$(whoami)@143.42.46.146
 ```
+
+Your password is constructed as:
+
+```bash
 $(whoami) + 47284
 ```
 
 **Example:**
-If your username is `john`, your password will be:
+If your username is `john`, then:
 
-```
-john47284
-```
+* Username: `john@143.42.46.146`
+* Password: `john47284`
 
 ---
 
@@ -33,20 +38,20 @@ john47284
 
 ### 1. Copy the Environment File
 
-Use `sshpass` with `scp` to copy the file non-interactively:
+Copy your local `~/env` file to your home directory on the remote server:
 
 ```bash
-sshpass -p "$(whoami)47284" scp ~/env root@143.42.46.146:/root/env
+sshpass -p "$(whoami)47284" scp ~/env $(whoami)@143.42.46.146:~/env
 ```
 
 ---
 
 ### 2. Set Secure Permissions
 
-Ensure only `root` can read and write the file:
+Restrict access so only your user can read and write the file:
 
 ```bash
-sshpass -p "$(whoami)47284" ssh root@143.42.46.146 "chmod 600 /root/env"
+sshpass -p "$(whoami)47284" ssh $(whoami)@143.42.46.146 "chmod 600 ~/env"
 ```
 
 ---
@@ -56,31 +61,31 @@ sshpass -p "$(whoami)47284" ssh root@143.42.46.146 "chmod 600 /root/env"
 Confirm the file exists and has the correct permissions:
 
 ```bash
-sshpass -p "$(whoami)47284" ssh root@143.42.46.146 "ls -l /root/env"
+sshpass -p "$(whoami)47284" ssh $(whoami)@143.42.46.146 "ls -l ~/env"
 ```
 
 Expected output:
 
-```
--rw------- 1 root root ... /root/env
+```bash
+-rw------- 1 <your-user> <your-user> ... /home/<your-user>/env
 ```
 
 ---
 
 ## ✅ Summary
 
-* File copied to: `/root/env`
+* File copied to: `~/env` on the remote server
 * Permissions set to: `600` (`-rw-------`)
-* Access restricted to: `root` only
+* Access restricted to: your user only
 * Process is fully non-interactive using `sshpass`
 
 ---
 
 ## ⚠️ Notes
 
-* Be cautious when handling root credentials.
+* Be cautious when handling credentials.
 * Avoid committing sensitive files like `env` to version control.
-* Ensure `sshpass` is used securely and only in trusted environments.
+* Ensure `sshpass` is used only in trusted environments.
 
 ---
 
