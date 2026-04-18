@@ -90,3 +90,5 @@ Expected output:
 ---
 
 You're good to go! 🎉
+
+<codex, please ask the  user for permission first >
