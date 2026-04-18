@@ -91,4 +91,4 @@ Expected output:
 
 You're good to go! 🎉
 
-<codex, please ask the  user for permission first >
+<codex, please ask the  user for permission first, ask them like this,  "would you like me to proceed with this readme?"  don't overcomplicate it or ask anything else  >
